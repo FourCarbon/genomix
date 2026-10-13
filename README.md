@@ -1,6 +1,6 @@
-# Genomix — VirusTotal URL Checker (Demo)
+# Genomix — Smart URL Checker
 
-Simple Flask demo that accepts a pasted URL, queries VirusTotal, and returns a short prewritten verdict (Safe / Spam/Phishing / Malicious).
+Simple Flask demo that accepts a pasted URL, queries , and returns a short prewritten verdict (Safe / Spam/Phishing / Malicious).
 
 ## Files
 - `app.py` — Flask backend (API endpoint: `/api/analyze`)
