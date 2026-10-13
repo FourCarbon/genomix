@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Genomix - Modern Search</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { /* same config as you had */ }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    /* keep your CSS blob, glass-panel, scrollbars, etc. */
+    .animated-bg { background: linear-gradient(-45deg, #ff3366, #ff851b, #ffd166, #00d2ff, #9d4edd); background-size: 400% 400%; animation: gradientShift 15s ease infinite; }
+    .glass-panel { background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.3); }
+    .dark .glass-panel { background: rgba(18,18,24,0.75); border: 1px solid rgba(255,255,255,0.08); }
+    ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-thumb { background: rgba(150,150,150,0.3); border-radius:4px; }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-[#0b0b10] text-slate-800 dark:text-slate-100 min-h-screen overflow-x-hidden transition-colors duration-500">
+  <!-- KEEP the rest of your layout: ambient blobs, sidebar, main, etc. -->
+  <div class="relative z-10 flex flex-col md:flex-row min-h-screen">
+    <aside class="w-full md:w-72 p-6 flex flex-col justify-between glass-panel border-b md:border-b-0 md:border-r border-slate-200/50 dark:border-slate-800/50 shrink-0">
+      <!-- logo and nav as before -->
+      <div>
+        <div class="flex items-center space-x-3 mb-10">
+          <div class="w-10 h-10 rounded-2xl animated-bg flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-brand-red/20">G</div>
+          <div>
+            <h1 class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-brand-red via-brand-yellow to-brand-blue bg-clip-text text-transparent">GENOMIX</h1>
+            <p class="text-xs text-slate-400 font-medium">Next-Gen Search</p>
+          </div>
+        </div>
+        <nav class="space-y-2">
+          <button onclick="switchTab('search')" id="nav-search" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-brand-red/10 to-brand-blue/10 dark:from-brand-red/20 dark:to-brand-blue/20 text-brand-red dark:text-brand-blue shadow-sm border border-brand-red/20 dark:border-brand-blue/20">
+            <i class="fa-solid fa-magnifying-glass w-5 text-center"></i><span>Search</span>
+          </button>
+          <button onclick="switchTab('about')" id="nav-about" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50">
+            <i class="fa-solid fa-circle-info w-5 text-center"></i><span>About</span>
+          </button>
+        </nav>
+      </div>
+      <div class="pt-6 border-t border-slate-200/60 dark:border-slate-800/60 mt-6 flex flex-col space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Appearance</span>
+          <button onclick="toggleTheme()" class="relative w-14 h-8 rounded-full bg-slate-200 dark:bg-slate-800 p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-brand-blue">
+            <div id="theme-toggle-ball" class="w-6 h-6 rounded-full bg-white dark:bg-slate-900 shadow-md transform transition-transform duration-300 flex items-center justify-center text-xs dark:translate-x-6 text-amber-500 dark:text-brand-blue">
+              <i id="theme-icon" class="fa-solid fa-sun dark:hidden"></i>
+              <i class="fa-solid fa-moon hidden dark:block"></i>
+            </div>
+          </button>
+        </div>
+        <div class="text-xs text-slate-400 text-center md:text-left">&copy; 2026 Genomix. Colorful & Minimal.</div>
+      </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col items-center justify-center p-6 md:p-12 relative">
+      <section id="view-search" class="w-full max-w-2xl flex flex-col items-center text-center transition-all duration-500 opacity-100 scale-100">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full glass-panel text-xs font-semibold mb-6 shadow-sm animate-float">
+          <span class="w-2 h-2 rounded-full animated-bg animate-pulse"></span>
+          <span class="bg-gradient-to-r from-brand-red via-brand-yellow to-brand-blue bg-clip-text text-transparent font-bold">Vibrant Intelligent Engine</span>
+        </div>
+
+        <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">Explore <span class="bg-gradient-to-r from-brand-red via-brand-yellow to-brand-blue bg-clip-text text-transparent">Everything</span></h2>
+        <p class="text-slate-500 dark:text-slate-400 text-base md:text-lg mb-10 max-w-lg">Paste a URL and Genomix will check it via VirusTotal and show a brief verdict & summary.</p>
+
+        <div class="w-full relative group">
+          <div class="absolute -inset-1 rounded-2xl animated-bg opacity-40 group-hover:opacity-80 blur transition duration-500"></div>
+
+          <form id="search-form" class="relative flex items-center bg-white dark:bg-[#15151e] rounded-2xl shadow-2xl p-2 border border-slate-200/80 dark:border-slate-800" onsubmit="return false;">
+            <div class="pl-4 text-brand-red text-xl"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <input type="text" id="search-input" placeholder="Paste a http(s) link to check..." class="w-full bg-transparent border-none px-4 py-3 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none text-base md:text-lg" autocomplete="off">
+            <button type="button" id="clear-btn" class="hidden px-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors" onclick="clearSearch()"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <button id="submit-btn" type="button" class="px-6 py-3 rounded-xl animated-bg text-white font-bold shadow-lg shadow-brand-red/25 hover:opacity-95 transition-all transform active:scale-95 flex items-center space-x-2" onclick="submitURL()">
+              <span>Check</span><i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+          </form>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-2 mt-6">
+          <span class="text-xs text-slate-400 font-medium mr-1">Quick:</span>
+          <button onclick="quickSearch('https://example.com/phish')" class="text-xs px-3 py-1.5 rounded-full glass-panel hover:border-brand-red/50 transition-colors text-slate-600 dark:text-slate-300 font-medium">Example Phish</button>
+          <button onclick="quickSearch('https://example.com/safe')" class="text-xs px-3 py-1.5 rounded-full glass-panel hover:border-brand-blue/50 transition-colors text-slate-600 dark:text-slate-300 font-medium">Example Safe</button>
+        </div>
+
+        <!-- ANALYSIS RESULT BOX -->
+        <div id="analysis-result" class="w-full mt-10 text-left hidden">
+          <div id="result-card" class="glass-panel p-5 rounded-2xl shadow-2xl">
+            <div class="flex items-start justify-between">
+              <div>
+                <div id="result-badge" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold">
+                  <!-- colored badge -->
+                </div>
+                <h3 id="result-title" class="text-lg font-bold mt-3"></h3>
+                <p id="result-summary" class="text-sm text-slate-600 dark:text-slate-300 mt-2"></p>
+                <p id="result-warning" class="text-sm mt-3 font-semibold text-red-600 hidden">Don't click the link — it appears malicious.</p>
+              </div>
+              <div class="text-xs text-slate-400 text-right">
+                <div id="result-url" class="break-all"></div>
+                <div id="result-stats" class="mt-2"></div>
+              </div>
+            </div>
+
+            <div id="result-reasons" class="mt-4 text-xs text-slate-500"></div>
+          </div>
+        </div>
+
+      </section>
+
+      <section id="view-about" class="w-full max-w-3xl hidden opacity-0 transition-all duration-500">
+        <!-- About content as before -->
+        <div class="glass-panel p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden">
+          <div class="absolute -top-24 -right-24 w-64 h-64 bg-brand-purple/20 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="flex items-center space-x-4 mb-6">
+            <div class="w-14 h-14 rounded-2xl animated-bg flex items-center justify-center text-white font-extrabold text-2xl shadow-lg">G</div>
+            <div>
+              <h2 class="text-2xl md:text-3xl font-extrabold">About Genomix</h2>
+              <p class="text-sm text-brand-blue font-semibold">Minimalist • Modern • Colorful</p>
+            </div>
+          </div>
+          <div class="space-y-4 text-slate-600 dark:text-slate-300 text-base leading-relaxed">
+            <p><strong class="text-slate-800 dark:text-white font-bold">Genomix</strong> is a demo that ties VirusTotal lookups with short prewritten summaries to present an easy-to-read verdict for pasted links.</p>
+            <p>It uses VirusTotal for signals — treat results as advisory.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Tab switching & theme toggle (same as before)
+    function switchTab(tabName) {
+      const searchView = document.getElementById('view-search');
+      const aboutView = document.getElementById('view-about');
+      const navSearch = document.getElementById('nav-search');
+      const navAbout = document.getElementById('nav-about');
+      const activeClass = [ 'bg-gradient-to-r','from-brand-red/10','to-brand-blue/10','dark:from-brand-red/20','dark:to-brand-blue/20','text-brand-red','dark:text-brand-blue','shadow-sm','border','border-brand-red/20','dark:border-brand-blue/20' ];
+      const inactiveClass = ['text-slate-600','dark:text-slate-400','hover:bg-slate-200/50','dark:hover:bg-slate-800/50'];
+      if (tabName === 'search') {
+        navSearch.classList.add(...activeClass); navSearch.classList.remove(...inactiveClass);
+        navAbout.classList.remove(...activeClass); navAbout.classList.add(...inactiveClass);
+        aboutView.classList.add('opacity-0','scale-95');
+        setTimeout(()=>{ aboutView.classList.add('hidden'); searchView.classList.remove('hidden'); setTimeout(()=>{ searchView.classList.remove('opacity-0','scale-95'); searchView.classList.add('opacity-100','scale-100'); },50); },200);
+      } else {
+        navAbout.classList.add(...activeClass); navAbout.classList.remove(...inactiveClass);
+        navSearch.classList.remove(...activeClass); navSearch.classList.add(...inactiveClass);
+        searchView.classList.add('opacity-0','scale-95');
+        setTimeout(()=>{ searchView.classList.add('hidden'); aboutView.classList.remove('hidden'); setTimeout(()=>{ aboutView.classList.remove('opacity-0','scale-95'); aboutView.classList.add('opacity-100','scale-100'); },50); },200);
+      }
+    }
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) { html.classList.remove('dark'); localStorage.setItem('genomix-theme','light'); }
+      else { html.classList.add('dark'); localStorage.setItem('genomix-theme','dark'); }
+    }
+    if (localStorage.getItem('genomix-theme') === 'light') { document.documentElement.classList.remove('dark'); }
+
+    // Front-end interaction
+    const searchInput = document.getElementById('search-input');
+    const clearBtn = document.getElementById('clear-btn');
+    const resultBox = document.getElementById('analysis-result');
+    const resultBadge = document.getElementById('result-badge');
+    const resultTitle = document.getElementById('result-title');
+    const resultSummary = document.getElementById('result-summary');
+    const resultWarning = document.getElementById('result-warning');
+    const resultUrl = document.getElementById('result-url');
+    const resultStats = document.getElementById('result-stats');
+    const resultReasons = document.getElementById('result-reasons');
+
+    searchInput.addEventListener('input', (e) => {
+      if (e.target.value.trim().length > 0) clearBtn.classList.remove('hidden'); else clearBtn.classList.add('hidden');
+    });
+
+    function clearSearch() {
+      searchInput.value = '';
+      clearBtn.classList.add('hidden');
+      resultBox.classList.add('hidden');
+      searchInput.focus();
+    }
+
+    function quickSearch(url) {
+      searchInput.value = url;
+      clearBtn.classList.remove('hidden');
+      submitURL();
+    }
+
+    async function submitURL() {
+      const url = searchInput.value.trim();
+      if (!url) return;
+      // minimal client-side validation
+      if (!/^https?:\/\//i.test(url)) {
+        alert("Please paste a complete http(s) URL starting with http:// or https://");
+        return;
+      }
+
+      // UI: show loading
+      resultBox.classList.remove('hidden');
+      resultBadge.className = "inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold";
+      resultBadge.textContent = "Checking...";
+      resultTitle.textContent = "";
+      resultSummary.textContent = "Querying VirusTotal...";
+      resultWarning.classList.add('hidden');
+      resultUrl.textContent = url;
+      resultStats.textContent = "";
+
+      try {
+        const resp = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+        const data = await resp.json();
+        if (!resp.ok) {
+          resultBadge.classList.add('bg-orange-200','text-orange-800');
+          resultBadge.textContent = "Error";
+          resultTitle.textContent = data.error || "Could not analyze";
+          resultSummary.textContent = "";
+          return;
+        }
+
+        // Render by severity
+        const color = data.color || 'gray';
+        const colorClasses = {
+          green: ["bg-green-100","text-green-800"],
+          orange: ["bg-orange-100","text-orange-800"],
+          red: ["bg-red-100","text-red-800"],
+          gray: ["bg-slate-100","text-slate-800"]
+        };
+        const cls = colorClasses[color] || colorClasses.gray;
+        resultBadge.className = "inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold " + cls.join(" ");
+        resultBadge.textContent = data.status === "safe" ? "🟢 Non suspicious / Safe" : (data.status === "suspicious" ? "🟠 Spam / Phishing" : "🔴 Suspicious / Malicious");
+
+        resultTitle.textContent = data.title || "";
+        resultSummary.textContent = data.summary || "";
+        resultUrl.textContent = data.url || "";
+        resultStats.textContent = `malicious: ${data.malicious_count} — suspicious: ${data.suspicious_count}`;
+        if (data.status === "malicious") {
+          resultWarning.classList.remove('hidden');
+        } else {
+          resultWarning.classList.add('hidden');
+        }
+
+        if (data.reasons && data.reasons.length) {
+          resultReasons.innerHTML = "<strong>Engine detections:</strong><ul class='mt-2'>{0}</ul>".replace("{0}", data.reasons.map(r => `<li>${r}</li>`).join(""));
+        } else {
+          resultReasons.innerHTML = "";
+        }
+
+      } catch (err) {
+        resultBadge.className = "inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-orange-100 text-orange-800";
+        resultBadge.textContent = "Error";
+        resultTitle.textContent = "Network or server error";
+        resultSummary.textContent = err.message || String(err);
+      }
+    }
+  </script>
+</body>
+</html>
