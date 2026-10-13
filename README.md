@@ -1,6 +1,6 @@
 # Genomix — ThreatScan URL Checker (Demo)
 
-Simple Flask demo that accepts a pasted URL, queries a scan provider, and returns a short prewritten verdict (Safe / Spam/Phishing / Malicious).
+Simple Flask demo that accepts a pasted URL, queries a scan provider, and returns a short summery about that url verdict (Safe / Spam/Phishing / Malicious).
 
 ## Files
 - `app.py` — Flask backend (API endpoint: `/api/analyze`)
