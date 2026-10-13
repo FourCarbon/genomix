@@ -1,6 +1,6 @@
-# Genomix — Smart URL Checker
+# Genomix — ThreatScan URL Checker (Demo)
 
-Simple Flask demo that accepts a pasted URL, queries , and returns a short prewritten verdict (Safe / Spam/Phishing / Malicious).
+Simple Flask demo that accepts a pasted URL, queries a scan provider, and returns a short prewritten verdict (Safe / Spam/Phishing / Malicious).
 
 ## Files
 - `app.py` — Flask backend (API endpoint: `/api/analyze`)
@@ -17,10 +17,10 @@ Simple Flask demo that accepts a pasted URL, queries , and returns a short prewr
 2. Install dependencies:
    - `pip install -r requirements.txt`
 
-3. Add your VirusTotal API key:
+3. Add your API key:
    - Copy `.env.example` → `.env` locally and set:
      ```
-     VIRUSTOTAL_API_KEY=your_real_api_key_here
+     THREATSCAN_API_KEY=your_real_api_key_here
      ```
    - DO NOT commit `.env` to the repository.
 
@@ -29,8 +29,8 @@ Simple Flask demo that accepts a pasted URL, queries , and returns a short prewr
    - Open: http://127.0.0.1:5000
 
 ## Notes & security
-- Keep the VirusTotal API key secret (use environment variables, CI secrets, or a secrets manager).
-- The public VirusTotal API is rate-limited. Consider caching results in production.
+- Keep the API key secret (use environment variables, CI secrets, or a secrets manager).
+- The provider's public API is rate-limited. Consider caching results in production.
 - This is a demo; treat results as advisory and not a substitute for full threat investigation.
 
 ## License
